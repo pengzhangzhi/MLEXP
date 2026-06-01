@@ -1,0 +1,13 @@
+{
+  "name": "mlexp",
+  "description": "Marketplace for the MLEXP plugin",
+  "owner": { "name": "fredpeng", "email": "pengzhangzhics@gmail.com" },
+  "plugins": [
+    {
+      "name": "mlexp",
+      "description": "ML Experimentalist workflows: plan, implement, submit, monitor, debug, report",
+      "version": "0.1.0",
+      "source": "./"
+    }
+  ]
+}

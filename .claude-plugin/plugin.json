@@ -1,0 +1,10 @@
+{
+  "name": "mlexp",
+  "description": "ML Experimentalist: durable, file-backed workflows for user-directed ML research — plan, implement, submit, monitor, debug, and report on cluster experiments. Pure-prompt, on-demand.",
+  "version": "0.1.0",
+  "author": { "name": "fredpeng", "email": "pengzhangzhics@gmail.com" },
+  "homepage": "https://github.com/pengzhangzhi/MLEXP",
+  "repository": "https://github.com/pengzhangzhi/MLEXP",
+  "license": "MIT",
+  "keywords": ["ml", "experiments", "slurm", "wandb", "monitoring", "ablation", "workflows"]
+}

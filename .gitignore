@@ -1,0 +1,5 @@
+# MLEXP writes experiment state into your research repo's .mlexp/, never here.
+.mlexp/
+__pycache__/
+*.pyc
+.DS_Store
