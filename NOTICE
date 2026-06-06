@@ -1,0 +1,20 @@
+superpowers-ml
+==============
+
+This project is a fork of Superpowers (https://github.com/obra/superpowers),
+created by Jesse Vincent <jesse@fsck.com> and licensed under the MIT License.
+
+All original Superpowers content is retained unchanged except where explicitly
+noted. This fork adds a conservative machine-learning research layer:
+
+  - "## ML research addendum" sections appended to five existing skills:
+    brainstorming, writing-plans, test-driven-development, systematic-debugging,
+    and verification-before-completion. Original skill text is unchanged above
+    each addendum.
+
+  - three new skills: ml-experiment-design, ml-feedback-ladder, ml-result-review.
+
+  - docs/superpowers-ml.md, describing the ML layer and the R0-R7 verification
+    rungs.
+
+The original copyright and MIT license terms are retained in full. See LICENSE.

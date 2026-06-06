@@ -1,6 +1,6 @@
 {
-  "name": "superpowers",
-  "description": "Core skills library: TDD, debugging, collaboration patterns, and proven techniques",
-  "version": "5.1.0",
+  "name": "superpowers-ml",
+  "description": "Superpowers core skills plus a conservative ML-research layer. Fork of obra/superpowers.",
+  "version": "5.1.0-ml.0",
   "contextFileName": "GEMINI.md"
 }

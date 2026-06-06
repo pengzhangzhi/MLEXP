@@ -1,3 +1,10 @@
+# superpowers-ml (fork)
+
+> **This is `superpowers-ml`, a conservative fork of [obra/superpowers](https://github.com/obra/superpowers).**
+> The contributor guidelines below are **upstream's**, for contributing to obra/superpowers — they do not govern this fork. In particular, the ML-research extensions here are intentionally domain-specific and live in this fork by design (added as marked addenda + three `ml-*` skills); upstream's "domain-specific skills belong in a separate plugin" rule would otherwise discourage them. When syncing from upstream, merge `upstream/main` and keep the ML addenda and `ml-*` skills. See `docs/superpowers-ml.md`.
+
+---
+
 # Superpowers — Contributor Guidelines
 
 ## If You Are an AI Agent

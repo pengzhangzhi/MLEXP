@@ -1,4 +1,6 @@
-# Superpowers
+# Superpowers ML
+
+> **`superpowers-ml`** is a conservative fork of [Superpowers](https://github.com/obra/superpowers) by Jesse Vincent (MIT). It preserves all original Superpowers skills and philosophy unchanged, and adds a small ML-research layer on top: staged empirical **verification rungs (R0–R7)**, plus three new skills for ML experiment design, a cheap→expensive feedback ladder, and sober result review. ML guidance is added as clearly-marked addenda to five existing skills and as three new `ml-*` skills — nothing is removed. See [`docs/superpowers-ml.md`](docs/superpowers-ml.md).
 
 Superpowers is a complete software development methodology for your coding agents, built on top of a set of composable skills and some initial instructions that make sure your agent uses them.
 

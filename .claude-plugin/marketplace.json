@@ -1,15 +1,15 @@
 {
-  "name": "superpowers-dev",
-  "description": "Development marketplace for Superpowers core skills library",
+  "name": "superpowers-ml-dev",
+  "description": "Marketplace for superpowers-ml: Superpowers core skills plus a conservative ML-research layer.",
   "owner": {
     "name": "Jesse Vincent",
     "email": "jesse@fsck.com"
   },
   "plugins": [
     {
-      "name": "superpowers",
-      "description": "Core skills library for Claude Code: TDD, debugging, collaboration patterns, and proven techniques",
-      "version": "5.1.0",
+      "name": "superpowers-ml",
+      "description": "Superpowers core skills plus a conservative ML-research layer (verification rungs, experiment design, result review). Fork of obra/superpowers.",
+      "version": "5.1.0-ml.0",
       "source": "./",
       "author": {
         "name": "Jesse Vincent",
