@@ -369,3 +369,17 @@ Otherwise → not TDD
 ```
 
 No exceptions without your human partner's permission.
+
+---
+## ML research addendum
+
+For ML code, the failing-test set is wider than ordinary unit tests. Keep the ordinary unit tests, and before any expensive run also write cheap ML-specific checks and watch them fail:
+
+- **Shape / dtype / device** assertions on inputs, outputs, and parameters.
+- **Deterministic tiny-batch check** under a fixed seed - same input, same output.
+- **Finite-loss check** - loss is not NaN or Inf.
+- **One forward+backward step** where feasible - gradients exist and are finite.
+
+These map to rungs R1-R3 (see `superpowers-ml:ml-feedback-ladder`) and are the cheap gate before any GPU or cluster job. Keep them fast and deterministic; seed everything.
+
+**A green suite proves the code PATH runs - not that the method works.** Showing the method works needs the higher rungs (R4 smoke run, R5 pilot, R6 full study). Don't claim the method works from a green suite.

@@ -13,7 +13,7 @@ Assume they are a skilled developer, but know almost nothing about our toolset o
 
 **Announce at start:** "I'm using the writing-plans skill to create the implementation plan."
 
-**Context:** If working in an isolated worktree, it should have been created via the `superpowers:using-git-worktrees` skill at execution time.
+**Context:** If working in an isolated worktree, it should have been created via the `superpowers-ml:using-git-worktrees` skill at execution time.
 
 **Save plans to:** `docs/superpowers/plans/YYYY-MM-DD-<feature-name>.md`
 - (User preferences for plan location override this default)
@@ -49,7 +49,7 @@ This structure informs the task decomposition. Each task should produce self-con
 ```markdown
 # [Feature Name] Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers-ml:subagent-driven-development (recommended) or superpowers-ml:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** [One sentence describing what this builds]
 
@@ -144,9 +144,24 @@ After saving the plan, offer execution choice:
 **Which approach?"**
 
 **If Subagent-Driven chosen:**
-- **REQUIRED SUB-SKILL:** Use superpowers:subagent-driven-development
+- **REQUIRED SUB-SKILL:** Use superpowers-ml:subagent-driven-development
 - Fresh subagent per task + two-stage review
 
 **If Inline Execution chosen:**
-- **REQUIRED SUB-SKILL:** Use superpowers:executing-plans
+- **REQUIRED SUB-SKILL:** Use superpowers-ml:executing-plans
 - Batch execution with checkpoints for review
+
+---
+## ML research addendum
+
+An ML plan that ends at "tests pass" is incomplete. A passing test shows the code PATH might run; it does not show the method works. Build a staged verification ladder into the plan as bite-sized tasks, and gate expensive cluster/GPU work behind the cheap rungs.
+
+Keep four things separate — a plan task must say which it establishes, and never conflate them:
+- **Code correctness** — the path runs (R1 static/import/config; R2 one-batch shape/dtype/device + forward/backward).
+- **Trainability** — the model can learn (R3 tiny overfit).
+- **Cheap empirical signal** — early read on the real setup (R4 launcher smoke run; R5 short pilot).
+- **Full empirical evidence** — the locked primary metric on the real study (R6 full run).
+
+Include only the rungs that fit the work. For every verification step, name the concrete ARTIFACT that proves the rung passed — a logged loss curve, a saved overfit checkpoint, a smoke-run log — not "verify it works". State the artifact in the step the way the base skill states expected command output.
+
+Design the ladder with `superpowers-ml:ml-feedback-ladder`; pin the experiment card and locked metric with `superpowers-ml:ml-experiment-design` before defining tasks.

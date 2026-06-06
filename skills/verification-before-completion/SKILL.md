@@ -137,3 +137,16 @@ From 24 failure memories:
 Run the command. Read the output. THEN claim the result.
 
 This is non-negotiable.
+
+---
+## ML research addendum
+
+A green test suite proves the code PATH might run. It does NOT prove the method works. For ML work, never just say "done" or "works".
+
+**State the highest verified rung and the exact evidence for it, then state what is not yet verified.**
+
+- Name the artifact or log that backs the rung (overfit curve, smoke-job stdout, pilot metric). No artifact, no claim.
+- Do NOT claim a method beats a baseline until the required full or equivalent evaluation has COMPLETED under the declared, locked primary metric. Early or partial signal is not victory.
+- Report in the canonical format: "Verified through R3 (tiny overfit). Not yet verified by smoke run, pilot, or full study." Separate what is SUPPORTED from what is NOT SUPPORTED yet.
+
+See `superpowers-ml:ml-feedback-ladder` for rung definitions and `superpowers-ml:ml-result-review` for the full conclusion structure.

@@ -162,3 +162,21 @@ A question about a UI topic is not automatically a visual question. "What does p
 
 If they agree to the companion, read the detailed guide before proceeding:
 `skills/brainstorming/visual-companion.md`
+
+---
+## ML research addendum
+
+When the work is an ML experiment, the brainstorm has a known shape — steer it to pin down, not to interrogate. Ask only the questions still genuinely open; skip anything the context already answers.
+
+By the end of the brainstorm these must be settled:
+
+- **Hypothesis** — the specific claim the experiment would support or refute
+- **Baseline** and **variant(s)** — what you compare against, and what changes
+- **Dataset / split** — what you train and evaluate on
+- **Primary metric** — a single, locked metric that decides the outcome
+- **Budget** — the compute and wall-clock your human partner is willing to spend
+- **Cheapest useful verification rung** — the smallest check that would tell you something real (see `superpowers-ml:ml-feedback-ladder`)
+
+ML experiments do not need 2-3 architectural approaches the way features do. Propose alternatives only when the *method* is genuinely contested.
+
+**Terminal state for ML work:** hand off to `superpowers-ml:ml-experiment-design` to turn the idea into a compact experiment card BEFORE any training code.

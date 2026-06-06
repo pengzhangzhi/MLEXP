@@ -176,7 +176,7 @@ You MUST complete each phase before proceeding to the next.
    - Automated test if possible
    - One-off test script if no framework
    - MUST have before fixing
-   - Use the `superpowers:test-driven-development` skill for writing proper failing tests
+   - Use the `superpowers-ml:test-driven-development` skill for writing proper failing tests
 
 2. **Implement Single Fix**
    - Address the root cause identified
@@ -284,8 +284,8 @@ These techniques are part of systematic debugging and available in this director
 - **`condition-based-waiting.md`** - Replace arbitrary timeouts with condition polling
 
 **Related skills:**
-- **superpowers:test-driven-development** - For creating failing test case (Phase 4, Step 1)
-- **superpowers:verification-before-completion** - Verify fix worked before claiming success
+- **superpowers-ml:test-driven-development** - For creating failing test case (Phase 4, Step 1)
+- **superpowers-ml:verification-before-completion** - Verify fix worked before claiming success
 
 ## Real-World Impact
 
@@ -294,3 +294,20 @@ From debugging sessions:
 - Random fixes approach: 2-3 hours of thrashing
 - First-time fix rate: 95% vs 40%
 - New bugs introduced: Near zero vs common
+
+---
+## ML research addendum
+
+In ML, a "fix" can silently rewrite your results. Before fixing, CLASSIFY the failure - the class names the fix and which rung to re-check (see `superpowers-ml:ml-feedback-ladder`).
+
+| Class | Re-check from |
+|-------|---------------|
+| code / config / tracking / logging | R1 |
+| data | R2 (R5 for distribution issues) |
+| shape / dtype / device | R2 |
+| NaN / divergence | R2-R3 |
+| OOM / resource / checkpoint / scheduler | R4 |
+
+**Preemption, requeue, and node failure are OPERATIONAL interruptions, not scientific failures - resume from checkpoint, do not re-conclude.**
+
+**Any change to model logic, data, hyperparameters, training logic, or metrics is an EXPERIMENT change, not a silent bugfix - it can invalidate comparisons, so get your human partner's approval first.**
