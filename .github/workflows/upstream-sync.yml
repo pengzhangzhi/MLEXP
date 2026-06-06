@@ -1,0 +1,131 @@
+name: Sync upstream
+
+# Keeps superpowers-ml in sync with obra/superpowers.
+# Weekly (and on demand) it merges upstream/main onto a sync branch and opens
+# (or updates) a single PR. If the merge is clean the PR just needs review;
+# if it conflicts, the conflicted state is committed with markers and the PR
+# is opened as a draft labeled `needs-manual-merge` so you can resolve it.
+#
+# Requires: Settings → Actions → General →
+#   "Allow GitHub Actions to create and approve pull requests" = enabled.
+
+on:
+  schedule:
+    - cron: "0 6 * * 1" # Mondays 06:00 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  UPSTREAM: https://github.com/obra/superpowers.git
+  BASE_BRANCH: main
+  SYNC_BRANCH: automated/upstream-sync
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Fetch upstream
+        run: |
+          git remote add upstream "$UPSTREAM" 2>/dev/null || git remote set-url upstream "$UPSTREAM"
+          git fetch upstream --no-tags "$BASE_BRANCH"
+          git fetch origin --no-tags "$BASE_BRANCH"
+
+      - name: Check whether upstream is ahead
+        id: ahead
+        run: |
+          behind=$(git rev-list --count "origin/${BASE_BRANCH}..upstream/${BASE_BRANCH}")
+          echo "behind=$behind" >> "$GITHUB_OUTPUT"
+          echo "origin/${BASE_BRANCH} is $behind commit(s) behind upstream."
+          if [ "$behind" -eq 0 ]; then
+            echo "Already up to date — nothing to do."
+          fi
+
+      - name: Merge upstream onto sync branch
+        if: steps.ahead.outputs.behind != '0'
+        id: merge
+        run: |
+          set -euo pipefail
+          git switch -C "$SYNC_BRANCH" "origin/${BASE_BRANCH}"
+
+          if git merge --no-edit "upstream/${BASE_BRANCH}"; then
+            echo "conflicts=false" >> "$GITHUB_OUTPUT"
+            echo "Clean merge."
+          else
+            echo "conflicts=true" >> "$GITHUB_OUTPUT"
+            echo "Merge has conflicts — committing conflicted state with markers."
+            conflicted=$(git diff --name-only --diff-filter=U | sed 's/^/  - /')
+            {
+              echo "CONFLICT_FILES<<EOF"
+              echo "$conflicted"
+              echo "EOF"
+            } >> "$GITHUB_OUTPUT"
+            git add -A
+            git commit --no-edit
+          fi
+
+          git push --force-with-lease origin "$SYNC_BRANCH"
+
+      - name: Open or update PR
+        if: steps.ahead.outputs.behind != '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BEHIND: ${{ steps.ahead.outputs.behind }}
+          CONFLICTS: ${{ steps.merge.outputs.conflicts }}
+          CONFLICT_FILES: ${{ steps.merge.outputs.CONFLICT_FILES }}
+        run: |
+          set -euo pipefail
+
+          if [ "$CONFLICTS" = "true" ]; then
+            title="⚠️ Sync upstream ($BEHIND commits) — needs manual merge"
+            body=$(cat <<EOF
+          Automated sync of \`upstream/${BASE_BRANCH}\` (obra/superpowers), **$BEHIND commit(s)** ahead.
+
+          **This merge has conflicts.** The conflicted state was committed with markers so you can resolve it locally:
+
+          \`\`\`
+          git fetch origin
+          git switch $SYNC_BRANCH
+          # resolve conflict markers, then:
+          git add -A && git commit && git push
+          \`\`\`
+
+          Conflicting files:
+          $CONFLICT_FILES
+
+          Reminder — fork changes by tier (see docs/superpowers-ml.md):
+          - The 5 skill addenda are append-only at the end of each SKILL.md → keep both sides.
+          - Rebrand files (README, CLAUDE.md, manifests, package.json, hooks/session-start) → keep the superpowers-ml branding.
+          - ml-* skills never conflict.
+          EOF
+          )
+            draft="--draft"
+          else
+            title="Sync upstream ($BEHIND commits)"
+            body=$(cat <<EOF
+          Automated sync of \`upstream/${BASE_BRANCH}\` (obra/superpowers), **$BEHIND commit(s)** ahead. Merge is clean — review and merge.
+          EOF
+          )
+            draft=""
+          fi
+
+          existing=$(gh pr list --head "$SYNC_BRANCH" --state open --json number --jq '.[0].number // empty')
+          if [ -n "$existing" ]; then
+            gh pr edit "$existing" --title "$title" --body "$body"
+            echo "Updated existing PR #$existing"
+          else
+            gh pr create --base "$BASE_BRANCH" --head "$SYNC_BRANCH" \
+              --title "$title" --body "$body" $draft
+          fi
