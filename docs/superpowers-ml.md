@@ -40,7 +40,7 @@ Or, separating support from claims:
 
 **Addenda to five existing skills** (each appended under a `## ML research addendum` heading; original text untouched):
 
-- `brainstorming` — for ML experiments, pin down hypothesis, baseline, variant, dataset/split, metric, budget, and the cheapest useful rung; ask only necessary questions.
+- `brainstorming` — for broad ML research, settle a compact research goal contract first: outcome, evidence bar, current state, full-resource posture after cheap gates, stop/pause rules, and handoff to experiment cards. For narrow experiments, hand off directly to `ml-experiment-design`.
 - `writing-plans` — ML plans carry staged verification mapped to rungs, and name the artifact that proves each one.
 - `test-driven-development` — ML tests add shape/dtype/device, deterministic tiny-batch, finite-loss, and one-step forward/backward checks.
 - `systematic-debugging` — classify ML failures first; treat preemption/requeue as operational, not scientific; treat model/data/HP/metric changes as experiment changes needing approval.
