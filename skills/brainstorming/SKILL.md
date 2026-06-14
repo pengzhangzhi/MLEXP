@@ -166,17 +166,31 @@ If they agree to the companion, read the detailed guide before proceeding:
 ---
 ## ML research addendum
 
-When the work is an ML experiment, the brainstorm has a known shape — steer it to pin down, not to interrogate. Ask only the questions still genuinely open; skip anything the context already answers.
+When the work is an ML experiment or research direction, the brainstorm has a known shape — steer it to pin down, not to interrogate. Ask only the questions still genuinely open; skip anything the context already answers.
 
-By the end of the brainstorm these must be settled:
+For a narrow, already-clear experiment, hand off directly to `superpowers-ml:ml-experiment-design`.
 
-- **Hypothesis** — the specific claim the experiment would support or refute
-- **Baseline** and **variant(s)** — what you compare against, and what changes
-- **Dataset / split** — what you train and evaluate on
-- **Primary metric** — a single, locked metric that decides the outcome
-- **Budget** — the compute and wall-clock your human partner is willing to spend
-- **Cheapest useful verification rung** — the smallest check that would tell you something real (see `superpowers-ml:ml-feedback-ladder`)
+For a broad, vague, or multi-step ML research request, first settle a short **Research goal contract**:
+
+- **Research outcome** — what should become true if this research direction succeeds
+- **Evidence bar** — what evidence would make the direction worth continuing, abandoning, or escalating
+- **Current state** — code, data, baselines, prior runs, papers, or constraints already known
+- **Resource posture** — no artificial compute cap by default; use available GPUs and cluster resources once cheaper verification rungs pass. Do not skip cheap gates just because more compute is available
+- **Stop when** — evidence is enough to conclude, continue with the next card, or abandon the direction
+- **Pause if** — credentials, cluster/account access, destructive data changes, unclear research direction, external approval, or a change to the research claim is needed
+- **Next handoff** — create one or more `superpowers-ml:ml-experiment-design` cards
+- **Optional paste-ready `/goal`** — a durable agent goal derived from the contract when the user is using a goal-capable agent workflow
+
+Do not ask for a compute budget by default. Only ask when the user mentions scarce compute, shared cluster contention, external cost, deadline pressure, or a fixed allocation.
+
+### Non-overlap rules
+
+Do not duplicate experiment-card fields in the research goal contract. The following belong to `superpowers-ml:ml-experiment-design`: hypothesis, exact baseline config, variant, primary metric, dataset/split, seed policy, success criterion, and cheapest useful rung.
+
+If one of those fields is already known during brainstorming, record it as context only. Let `superpowers-ml:ml-experiment-design` lock it in the experiment card.
+
+By the end of the ML brainstorm, either the research goal contract is settled for broad work, or the request is narrow enough to skip it and proceed directly to an experiment card.
 
 ML experiments do not need 2-3 architectural approaches the way features do. Propose alternatives only when the *method* is genuinely contested.
 
-**Terminal state for ML work:** hand off to `superpowers-ml:ml-experiment-design` to turn the idea into a compact experiment card BEFORE any training code.
+**Terminal state for ML work:** hand off to `superpowers-ml:ml-experiment-design` to turn the research goal or narrow idea into a compact experiment card BEFORE any training code.
